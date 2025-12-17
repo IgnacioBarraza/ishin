@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import "tw-animate-css";
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -124,16 +124,6 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
   }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    /* 📝 Aplicar font-display para títulos */
-    @apply font-display;
-  }
 }
 
 @layer components {
@@ -182,12 +172,12 @@
 
   /* Stat card */
   .stat-card {
-    @apply ishin-card p-4 flex flex-col gap-2;
+    @apply bg-card border border-border/40 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 p-4 flex flex-col gap-2;
   }
 
   /* Widget panel */
   .widget-panel {
-    @apply shoji-panel p-4;
+    @apply bg-card/80 backdrop-blur-sm border border-border/50 rounded-lg shadow-sm p-4;
   }
 }
 
