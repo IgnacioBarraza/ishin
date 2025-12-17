@@ -1,6 +1,7 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Noto_Sans_JP, Zen_Kaku_Gothic_New } from 'next/font/google'
 import './globals.css'
+import { ReactNode } from 'react'
 
 const notoSansJP = Noto_Sans_JP({
   weight: ['400', '600', '700'],
@@ -25,6 +26,9 @@ export const metadata: Metadata = {
     title: 'Ishin',
     description: 'Organizador de Salud Personal',
   },
+}
+
+export const viewport: Viewport = {
   themeColor: [
     { color: '#0a0a0a', media: '(prefers-color-scheme: dark)' },
     { color: '#ffffff', media: '(prefers-color-scheme: light)' },
@@ -34,7 +38,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: ReactNode
 }>) {
   return (
     <html lang="es">
