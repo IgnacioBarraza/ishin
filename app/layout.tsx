@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   title: 'Ishin: Organizador de Salud Personal',
   description:
     'Ishin es un PWA organizador de salud para gestionar medicamentos, citas y signos vitales de manera segura y offline.',
-  manifest: '/manifest.json',
+  // manifest: '/manifest.json',
   openGraph: {
     title: 'Ishin',
     description: 'Organizador de Salud Personal',

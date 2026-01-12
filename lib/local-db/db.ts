@@ -1,5 +1,5 @@
 import Dexie, { type Table } from 'dexie'
-import { Medication } from '@/types/database'
+import { Medication } from '@/types/medication'
 
 export class IshinDatabase extends Dexie {
   medications!: Table<Medication>
