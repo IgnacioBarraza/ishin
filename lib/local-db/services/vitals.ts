@@ -9,30 +9,36 @@ export const VitalsService = {
    * @returns array of vitals
    */
   getByUser: async (userId: string): Promise<Vitals[]> => {
-    return await db.vitals.where('userId').equals(userId).toArray()
+    return await db.vitals
+      .where('userId')
+      .equals(userId)
+      .filter((v) => !v.isDeleted)
+      .toArray()
   },
 
   /**
    * Create a new vital record associated to a user
    * @param userId - string - The user ID
    * @param data - Vitals, omit id, userId, createdAt - data of the vital sign
-   * @returns vital record
+   * @returns vital record id
    */
   create: async (
     userId: string,
     data: Omit<Vitals, keyof BaseEntity>,
-  ): Promise<Vitals> => {
+  ): Promise<string> => {
     const now = new Date().toISOString()
+    const id = crypto.randomUUID()
     const newVital: Vitals = {
       ...data,
-      id: crypto.randomUUID(),
+      id: id,
       userId: userId,
       createdAt: now,
       lastSync: null,
       isDeleted: false,
     }
 
-    return await db.vitals.add(newVital)
+    await db.vitals.add(newVital)
+    return id
   },
 
   /**
@@ -49,8 +55,15 @@ export const VitalsService = {
       .where(['userId', 'type'])
       .equals([userId, type])
       .filter((v) => !v.isDeleted)
-      .reverse()
-      .sortBy('timestamp')
+      .toArray()
+      .then((results) =>
+        results
+          .reverse()
+          .sort(
+            (a, b) =>
+              new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+          ),
+      )
   },
 
   /**
@@ -63,8 +76,15 @@ export const VitalsService = {
     return await db.vitals
       .where('userId')
       .equals(userId)
-      .reverse()
-      .sortBy('timestamp')
-      .then((results) => results.slice(0, limit))
+      .filter((v) => !v.isDeleted)
+      .toArray()
+      .then((results) =>
+        results
+          .sort(
+            (a, b) =>
+              new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+          )
+          .slice(0, limit),
+      )
   },
 }

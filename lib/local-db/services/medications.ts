@@ -19,12 +19,12 @@ export const MedicationService = {
    * Create a new medication record associated to a user
    * @param userId - string - The ID of the user
    * @param data - Medication, omit id, createdAt, updatedAt - data of medication details
-   * @returns medication record
+   * @returns medication id
    */
   create: async (
     userId: string,
     data: Omit<Medication, 'id' | 'userId' | 'createdAt' | 'updatedAt'>,
-  ): Promise<Medication> => {
+  ): Promise<string> => {
     const now = new Date().toISOString()
     const id = crypto.randomUUID()
     const newMedication: Medication = {
@@ -37,7 +37,8 @@ export const MedicationService = {
       isDeleted: false,
     }
 
-    return await db.medications.add(newMedication)
+    await db.medications.add(newMedication)
+    return id
   },
 
   /**

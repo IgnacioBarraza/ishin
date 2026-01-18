@@ -7,12 +7,12 @@ export const MedicalNotesService = {
    * Create a new medical note record associated to a user
    * @param userId - string - The user ID
    * @param data - MedicalNotes, omit id -
-   * @returns the medical note record
+   * @returns the medical note id
    */
   create: async (
     userId: string,
     data: Omit<MedicalNotes, keyof BaseEntity>,
-  ): Promise<MedicalNotes> => {
+  ): Promise<string> => {
     const now = Date.now().toLocaleString()
     const id = crypto.randomUUID()
 
@@ -26,7 +26,8 @@ export const MedicalNotesService = {
       isDeleted: false,
     }
 
-    return await db.medicalNotes.add(newMedicalNote)
+    await db.medicalNotes.add(newMedicalNote)
+    return id
   },
 
   /**

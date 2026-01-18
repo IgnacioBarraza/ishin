@@ -17,7 +17,7 @@ export const HealthProfileService = {
    * @returns the userId of the saved health profile
    */
   save: async (profile: HealthProfile): Promise<string> => {
-    const now = Date.now().toLocaleString()
+    const now = new Date().toISOString()
     return await db.healthProfile.put({
       ...profile,
       createdAt: now,
