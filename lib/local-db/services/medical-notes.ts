@@ -13,7 +13,7 @@ export const MedicalNotesService = {
     userId: string,
     data: Omit<MedicalNotes, keyof BaseEntity>,
   ): Promise<string> => {
-    const now = Date.now().toLocaleString()
+    const now = new Date().toISOString()
     const id = crypto.randomUUID()
 
     const newMedicalNote: MedicalNotes = {

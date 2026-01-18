@@ -37,9 +37,10 @@ export const HealthProfileService = {
     userId: string,
     updates: Partial<HealthProfile>,
   ): Promise<number> => {
+    const now = new Date().toISOString()
     return await db.healthProfile.update(userId, {
       ...updates,
-      updatedAt: new Date().toISOString(),
+      updatedAt: now,
     })
   },
 }
