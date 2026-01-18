@@ -12,15 +12,15 @@ function isAuthenticated(request: NextRequest): boolean {
  */
 // Protected routes (All routes that starts with /protected)
 const PROTECTED_ROUTES = [
-  '/dashboard',
-  '/medications',
-  '/vitals',
-  '/profile',
-  '/settings',
-  '/calendar',
-  '/history',
-  '/metrics',
-  '/notes',
+  '/dashboard/:path*',
+  '/medications/:path*',
+  '/vitals/:path*',
+  '/profile/:path*',
+  '/settings/:path*',
+  '/calendar/:path*',
+  '/history/:path*',
+  '/metrics/:path*',
+  '/notes/:path*',
 ]
 
 // Flow auth routes: Routes that user should not enter if logged in.
@@ -31,10 +31,10 @@ export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
   const loggedIn = isAuthenticated(request)
   const isProtected = PROTECTED_ROUTES.some((route) =>
-    pathname.startsWith(route)
+    pathname.startsWith(route),
   )
   const isAuthFlowRoute = AUTH_FLOW_ROUTES.some((route) =>
-    pathname.startsWith(route)
+    pathname.startsWith(route),
   )
 
   /**
