@@ -1,9 +1,11 @@
+import { BaseEntity } from './db'
+
 /**
  * Medication record interface
  * Represents a medication with dosage, schedule, and status information
  * Supports multiple schedule types (daily, interval-based, or as-needed)
  */
-export interface Medication {
+export interface Medication extends BaseEntity {
   id: string
   name: string
   dosage: string

@@ -8,26 +8,33 @@ export const MedicationService = {
    * @returns array of medications
    */
   getByUser: async (userId: string): Promise<Medication[]> => {
-    return await db.medications.where('userId').equals(userId).toArray()
+    return await db.medications
+      .where('userId')
+      .equals(userId)
+      .filter((m) => !m.isDeleted)
+      .toArray()
   },
 
   /**
    * Create a new medication record associated to a user
    * @param userId - string - The ID of the user
    * @param data - Medication, omit id, createdAt, updatedAt - data of medication details
-   * @returns
+   * @returns medication record
    */
   create: async (
     userId: string,
-    data: Omit<Medication, 'id' | 'createdAt' | 'updatedAt'>
+    data: Omit<Medication, 'id' | 'userId' | 'createdAt' | 'updatedAt'>,
   ): Promise<Medication> => {
-    const now = Date.now().toLocaleString()
+    const now = new Date().toISOString()
+    const id = crypto.randomUUID()
     const newMedication: Medication = {
       ...data,
-      id: crypto.randomUUID(),
+      id: id,
       userId: userId,
       createdAt: now,
       updatedAt: now,
+      lastSync: null,
+      isDeleted: false,
     }
 
     return await db.medications.add(newMedication)
@@ -42,7 +49,7 @@ export const MedicationService = {
     return await db.medications
       .where('userId')
       .equals(userId)
-      .filter((m) => m.isActive === true)
+      .filter((m) => m.isActive === true && !m.isDeleted)
       .toArray()
   },
 
@@ -56,14 +63,14 @@ export const MedicationService = {
   update: async (
     userId: string,
     id: string,
-    data: Partial<Medication>
+    data: Partial<Medication>,
   ): Promise<Medication> => {
     const record = await db.medications.get(id)
 
     if (!record || record.userId !== userId) {
       throw new Error('No tienes permisos para editar este registro.')
     }
-    const now = new Date().toLocaleString()
+    const now = new Date().toISOString()
 
     await db.medications.update(id, {
       ...data,
@@ -74,18 +81,22 @@ export const MedicationService = {
   },
 
   /**
-   * Delete the specific medication record
+   * Performs a soft delete to allow background synchronization for the specific medication record
    * @param userId - string - User ID
    * @param id - string - Medicine record ID
    */
   delete: async (userId: string, id: string): Promise<void> => {
     const record = await db.medications.get(id)
 
-    if (!record || record.userId !== userId)
-      throw new Error(
-        'Medicamento no encontrado o no tienes permisos para modificar este registro.'
-      )
+    if (!record || record.userId !== userId) {
+      throw new Error('Unauthorized or record not found.')
+    }
 
-    await db.medications.delete(id)
+    const now = new Date().toISOString()
+
+    await db.medications.update(id, {
+      isDeleted: true,
+      updatedAt: now,
+    })
   },
 }
