@@ -1,19 +1,13 @@
 import type { Metadata, Viewport } from 'next'
-import { Noto_Sans_JP, Zen_Kaku_Gothic_New } from 'next/font/google'
+import { Noto_Sans_JP } from 'next/font/google'
 import './globals.css'
 import { ReactNode } from 'react'
+import { AuthProvider } from '@/components/providers/auth-rpovider'
 
 const notoSansJP = Noto_Sans_JP({
   weight: ['400', '600', '700'],
   subsets: ['latin'],
   variable: '--font-noto-sans-jp',
-  display: 'swap',
-})
-
-const zenKakuGothicNew = Zen_Kaku_Gothic_New({
-  weight: ['400', '500', '700'],
-  subsets: ['latin'],
-  variable: '--font-zen-kaku-gothic-new',
   display: 'swap',
 })
 
@@ -42,11 +36,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body
-        className={`${notoSansJP.variable} ${zenKakuGothicNew.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <AuthProvider>
+        <body className={`${notoSansJP.variable} antialiased`}>{children}</body>
+      </AuthProvider>
     </html>
   )
 }
