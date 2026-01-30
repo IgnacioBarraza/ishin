@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Noto_Sans_JP } from 'next/font/google'
 import './globals.css'
 import { ReactNode } from 'react'
-import { AuthProvider } from '@/components/providers/auth-rpovider'
+import { AuthProvider } from '@/components/providers/auth-provider'
 
 const notoSansJP = Noto_Sans_JP({
   weight: ['400', '600', '700'],

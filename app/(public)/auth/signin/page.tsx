@@ -256,6 +256,15 @@ export default function SignIn() {
               Continuar con Google
             </Button>
           </form>
+          <div className="mt-6 text-center text-sm">
+            <span className="text-muted-foreground">¿Ya tienes cuenta? </span>
+            <Link
+              href="/auth/login"
+              className="text-primary hover:underline font-medium"
+            >
+              Inicia sesión
+            </Link>
+          </div>
         </div>
       </div>
     </div>

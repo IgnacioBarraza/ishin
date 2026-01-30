@@ -3,14 +3,21 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Mail, EyeOff, Eye } from 'lucide-react'
-import { FormEvent } from 'react'
+import { FormEvent, useState } from 'react'
 import { Lock } from 'lucide-react'
 import Link from 'next/link'
+import { signIn } from 'next-auth/react'
 
 export default function Login() {
+  const [showPassword, setShowPassword] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const loginWithGoogle = async (e: FormEvent) => {
     e.preventDefault()
     // TODO. Do the logic to login with google
+    await signIn('google', {
+      callbackUrl: '/dashboard',
+    })
   }
 
   const handleLogin = async (e: FormEvent) => {
@@ -45,8 +52,8 @@ export default function Login() {
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   type="email"
-                  // value={email}
-                  // onChange={(e) => setEmail(e.target.value)}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="tu@email.com"
                   className="pl-10"
                 />
@@ -60,22 +67,22 @@ export default function Login() {
               <div className="relative mt-1">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
-                  // type={showPassword ? 'text' : 'password'}
-                  // value={password}
-                  // onChange={(e) => setPassword(e.target.value)}
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   className="pl-10 pr-10"
                 />
                 <button
                   type="button"
-                  // onClick={() => setShowPassword(!showPassword)}
+                  onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 >
-                  {/* {showPassword ? (
+                  {showPassword ? (
                     <EyeOff className="h-4 w-4" />
                   ) : (
                     <Eye className="h-4 w-4" />
-                  )} */}
+                  )}
                 </button>
               </div>
             </div>
@@ -109,6 +116,7 @@ export default function Login() {
               type="button"
               variant="outline"
               className="w-full flex items-center justify-center gap-2"
+              onClick={loginWithGoogle}
             >
               <svg className="h-5 w-5" viewBox="0 0 24 24">
                 <path
@@ -142,6 +150,16 @@ export default function Login() {
             </Link>
           </div>
         </div>
+        <p className="text-xs text-muted-foreground text-center mt-6">
+          Al continuar, aceptas nuestros{' '}
+          <Link href="/terminos" className="underline">
+            Términos
+          </Link>{' '}
+          y{' '}
+          <Link href="/privacidad" className="underline">
+            Política de Privacidad
+          </Link>
+        </p>
       </div>
     </div>
   )
