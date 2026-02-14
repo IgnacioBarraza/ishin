@@ -1,12 +1,14 @@
 'use client'
 
+import { VitalsChart } from '@/components/dashboard/charts/vitals'
+import { QuickStats } from '@/components/dashboard/quicks/quicks'
 import {
   containerVariants,
   fadeInPage,
   itemVariants,
 } from '@/lib/utils/animations'
 import { motion } from 'framer-motion'
-import { Calendar, Sun } from 'lucide-react'
+import { Calendar } from 'lucide-react'
 
 export default function Dashboard() {
   const today = new Date()
@@ -16,6 +18,7 @@ export default function Dashboard() {
     month: 'long',
     year: 'numeric',
   })
+
   return (
     <motion.div
       variants={fadeInPage}
@@ -34,10 +37,6 @@ export default function Dashboard() {
             <span className="capitalize">{dateStr}</span>
           </p>
         </header>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Sun className="h-4 w-4 text-ishin-gold" />
-          <span>Ciudad de México, 22°C</span>
-        </div>
       </div>
 
       {/* Quick Stats */}
@@ -46,7 +45,7 @@ export default function Dashboard() {
           <h2 className="text-sm font-medium text-black uppercase tracking-wide mb-3">
             Últimos Registros
           </h2>
-          {/* <QuickStats /> */}
+          <QuickStats />
         </motion.section>
 
         {/* Main Grid */}
@@ -56,7 +55,7 @@ export default function Dashboard() {
         >
           {/* Left Column - Charts */}
           <div className="lg:col-span-2 space-y-6">
-            {/* <VitalsChart /> */}
+            <VitalsChart />
             {/* <RecentRecords /> */}
           </div>
 

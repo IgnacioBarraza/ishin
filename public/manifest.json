@@ -1,0 +1,17 @@
+{
+  "name": "Ishin - Tu salud, organizada",
+  "short_name": "Ishin",
+  "description": "Organiza y visualiza tu información de salud de forma simple y privada",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F3EF",
+  "theme_color": "#8B4557",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}
