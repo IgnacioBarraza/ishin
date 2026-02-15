@@ -2,6 +2,7 @@
 
 import { VitalsChart } from '@/components/dashboard/charts/vitals'
 import { QuickStats } from '@/components/dashboard/quicks/quicks'
+import { Reminders } from '@/components/dashboard/reminders/reminders'
 import {
   containerVariants,
   fadeInPage,
@@ -61,7 +62,7 @@ export default function Dashboard() {
 
           {/* Right Column - Widgets */}
           <div className="space-y-6">
-            {/* <Reminders /> */}
+            <Reminders />
             {/* <UpcomingAppointments /> */}
             {/* <ActiveMedications /> */}
           </div>
